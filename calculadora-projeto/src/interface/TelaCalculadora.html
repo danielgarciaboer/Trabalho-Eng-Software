@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Simples (Arquitetura Lógica)</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .calculadora { border: 1px solid #ccc; padding: 20px; max-width: 300px; }
+        input, select, button { margin: 5px 0; width: 100%; padding: 8px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div class="calculadora">
+        <h2>Calculadora</h2>
+        <input type="number" id="valorA" placeholder="Valor A">
+        <select id="operacao">
+            <option value="soma">+</option>
+            <option value="subtracao">-</option>
+            <option value="multiplicacao">*</option>
+            <option value="divisao">/</option>
+        </select>
+        <input type="number" id="valorB" placeholder="Valor B">
+        <button id="btnCalcular">Calcular</button>
+        
+        <h3>Resultado: <span id="resultado">...</span></h3>
+    </div>
+    
+    <div>
+        <h3>Histórico (Banco de Dados):</h3>
+        <ul id="historico">
+            <li>(Vazio)</li>
+        </ul>
+    </div>
+
+    <script type="module">
+        import { CalculadoraController } from './CalculadoraController.ts';
+        
+        const controller = new CalculadoraController();
+        
+        document.getElementById('btnCalcular').addEventListener('click', () => {
+            const valA = Number(document.getElementById('valorA').value);
+            const valB = Number(document.getElementById('valorB').value);
+            const op = document.getElementById('operacao').value;
+            
+            try {
+                // Envia para o Controller, que chamará o Domínio e salvará no Repositório
+                const resultado = controller.processarOperacao(valA, valB, op);
+                
+                // Exibe na interface (Tela)
+                document.getElementById('resultado').innerText = resultado;
+                
+                // Pega do "Banco" (Histórico) e mostra
+                const historico = controller.obterHistorico();
+                const ul = document.getElementById('historico');
+                ul.innerHTML = ''; // Limpa antes de mostrar de novo
+                historico.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerText = item;
+                    ul.appendChild(li);
+                });
+            } catch (err) {
+                alert("Erro: " + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
