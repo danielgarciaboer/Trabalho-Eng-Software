@@ -24,6 +24,8 @@ Para testar a calculadora com a tela interativa de botões:
    ```bash
    npx vite src/interface
    ```
+   *(**Nota:** Não é necessário baixar ou instalar o Vite manualmente. O comando `npx` já vem embutido no Node.js e faz o download e execução do Vite automaticamente de forma transparente!)*
+
 3. Acesse o link gerado no seu navegador (geralmente `http://localhost:5173/TelaCalculadora.html`).
 
 ### Opção 2: Executando no Terminal (Modo Texto)
